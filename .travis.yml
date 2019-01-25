@@ -1,18 +1,27 @@
 language: c
 os:
-- linux
-- osx
-before_install:
-- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; sudo apt-get install
-  -qq build-essential; fi
-script: "./build.sh && mv -v releases/bash releases/bash-$TRAVIS_OS_NAME"
+  - linux
+  - osx
+env:
+  global:
+    secure: "vlAM8D1a2T0np6kOEDdKDQIvFxxHH67nIgD1YvILlSeo3lmq5JGW1xkSl39zm2wHGp5JoWpsa+pRYx77WTyBMCaMVH9yUpE8Boy794Pnr2vXM9bOIKIgRKL270OvsN0llPnqMa6RNmNlLeEX+w7eeJKhez/wyvD3Spte0U0P3TUgTwNk6QRlM5pgdiDNJwQBtbDwvfLdqTehl/MSjP8sACE7mK6QSinHIgufBG9Z1lWb0nxvrbvgLdAtHhtmSLYOjFeN+mO56yghKiYVoUwfOVSYRaNB+U3IACzJqdaYFjWe/BXHpeBo+AE6qzx461PcV+0RVFPJ3hKGRQD+v4+6mupRsibvivZY/6RVUY4K+hCCcM0KFt2M0I8Fq5YL9bu4m8dFCLdazIgq8283TaxlPYfNtsB9XoHxqLOT6E6LE5dylAWYkw3n/be2PGmJkYSOOj7lggVAyAWywUbUVGteLRVy5oIFNRaKCKeLe2psL/ZQGWdUcQykSY2ZfrhJf8u+Xavbi5jSvgKd/Y1/kA2OgP3mr4tW+8jb8DG92AFvFUbePMIUif4ZSIIgtslk4azP46JFF2DiiK7YWdkLKWH/7ArGN036RKog8zqXp9zzjWMxVn/dBF6jQa638DvcgwuiCKrQnfzwh2gpV7Rvl9o6UFO5KToKW9ONzowVbK3eg/w="
+addons:
+  apt:
+    update: true
+    packages:
+      - build-essential
+if: branch != master AND tag IS blank
+install: ./scripts/prepare.sh
+script: ./scripts/build.sh
+before_deploy: ./scripts/tag.sh
 deploy:
   provider: releases
   api_key:
-    secure: UfRT4iSXWMjQLcTHje+WybtCM9WZJ4Ak/CzBDtlNSgAlLM3/+0x9u5IrKnKEdtwMX1ri+gMt08EI0Hdkc8gjAQr4Pi0HIyUhb9D4xFNJLxsQxKbkvC0nVVkSHZuS1dDE8V7323Oro5i7DF15Gx6EwWohwg3VrKhsUq91QbwmsCY=
-  file: releases/bash-$TRAVIS_OS_NAME
+    secure: iLOZUV2YdER4fI0VWxGquOmkit09nUnqnBR9ggER2CTh/eRw6hSupSvyrs6LqiHpySX1np1JvJ9oS2h37+sSvLapCTyN0cfb1fqDkFE6ZIO3P1iesC375OF7a3nKFIZVGiGNO32Ugak6Iox5pPkVDjoJrrIZb/EQ5MUl6vaZcscPpT28Vqmpn5VuTtnD7SnDNZJOBWElY5xBqy3JMbOVEyLLvsObvP2ZFYWU9nkCqzwsw9ZLg3W3Lzk3NXKEuA4nsW7B4FPgTKsrmy0FU00td1FJpxKX8zREsRIwxxdpQKxm/hgUrSYUZjtiyT+RqqL9DvvV7rxa9gPJD/AcIIIOmNFGrZFlB/YOT3oYZzPt1ajD3t23nOFmgj+8TtKEoOa3mU7Dj5EqcZkHGKrqLFxnzh65We4hfg7YVbEWa1ypGOPaK6Dga71zIl64HPn/59n+jbW2nLqmcI7B79MBSLeY8EMuVydtsHJOS44SGWh6YnYZzhUj2w0xUetJ9hB3G5k2PzSvLHKV4rVYq/1C9qYQzRojhJkoVWvuBAmqS96qTrgjdVu1yS7mkdqLRKFR0JI6N9ObfopMfOPIJgiP366PL5CHsiCJq3hntwoAefTCDXKye8Sr4CBuBtkLWhTzzYRZHhfV9j+89qR9+NzHux0Mr7gLikBZLHhxs8c2DBT+OB0=
+  file_glob: true
+  file: dist/bash_*
   skip_cleanup: true
   on:
-    repo: robxu9/bash-static
-    tags: true
+    repo: getbpt/bash-static
+    tags: false
     all_branches: true

@@ -1,4 +1,4 @@
-# bash-static
+# bash-static [![Build Status](https://travis-ci.org/getbpt/bash-static.svg?branch=master)](https://travis-ci.org/getbpt/bash-static)
 
 Because we all need the most static bash we can get in this world.
 
@@ -22,8 +22,3 @@ ENTRYPOINT ['/bash']
 And it'll just work&trade;. Well, you'll be missing all the coreutils, so
 it'll be close to useless, but hey! It works! You could probably add busybox
 in now.
-
-## Sponsored by...
-> Really?
-
-But actually. [Glider Labs](http://gliderlabs.com/). Cool people.
